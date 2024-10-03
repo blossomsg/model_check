@@ -3,11 +3,15 @@ import sys
 from typing import List
 
 import maya.OpenMayaUI as omui  # type: ignore
-from PySide2 import QtCore, QtWidgets
+from PySide2 import QtCore, QtGui, QtWidgets
 from shiboken2 import wrapInstance  # type: ignore
 
 ptr = omui.MQtUtil.mainWindow()
 ptr_instance = wrapInstance(int(ptr), QtWidgets.QWidget)
+
+FONT_POINT_SIZE = 10
+FONT = "Roboto"
+UI_STANDARD_FONT = QtGui.QFont(FONT, FONT_POINT_SIZE)
 
 
 class UiButtonCheckbox(QtWidgets.QWidget):
@@ -16,7 +20,8 @@ class UiButtonCheckbox(QtWidgets.QWidget):
     def __init__(
         self, checkbox: QtWidgets.QCheckBox, *buttons: QtWidgets.QPushButton
     ) -> None:
-        """This function initializes checkbox and buttons in fixed size policy for last button.
+        """This function initializes checkbox and buttons. Sets the fonts, font size and fixed size policy
+        for last button.
 
         Args:
             checkbox (QtWidgets.QCheckBox): A checkbox to toggle sanity checks
@@ -26,6 +31,9 @@ class UiButtonCheckbox(QtWidgets.QWidget):
         super().__init__()
         self.checkbox = checkbox
         self.buttons = buttons
+        self.checkbox.setFont(UI_STANDARD_FONT)
+        for button in self.buttons:
+            button.setFont(UI_STANDARD_FONT)
         # Making the last button Fixed size policy
         self.buttons[-1].setSizePolicy(
             QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
@@ -33,6 +41,7 @@ class UiButtonCheckbox(QtWidgets.QWidget):
 
 
 # pylint: disable=too-many-instance-attributes
+# pylint: disable=too-many-statements
 class UiModelCheckWidget(QtWidgets.QWidget):
     """This function initializes the ui."""
 
@@ -44,10 +53,13 @@ class UiModelCheckWidget(QtWidgets.QWidget):
         self.setWindowFlags(QtCore.Qt.Window)
 
         self.check_asset_pushbutton = QtWidgets.QPushButton("Check Asset")
+        self.check_asset_pushbutton.setFont(UI_STANDARD_FONT)
         self.model_checks_scrollarea = QtWidgets.QScrollArea()
         self.information_plaintextedit = QtWidgets.QPlainTextEdit()
         self.information_clear_pushbutton = QtWidgets.QPushButton("Clear logs")
+        self.information_clear_pushbutton.setFont(UI_STANDARD_FONT)
         self.fix_issues_pushbutton = QtWidgets.QPushButton("Fix All Issues")
+        self.fix_issues_pushbutton.setFont(UI_STANDARD_FONT)
 
         # Constraint Widgets Set
         self.constraint_check_widgets_set = UiButtonCheckbox(
