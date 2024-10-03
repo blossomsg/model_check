@@ -39,15 +39,14 @@ class UiModelCheckWidget(QtWidgets.QWidget):
     def __init__(self) -> None:
         super().__init__(parent=None)
 
+        # Parent to Maya UI
         self.setParent(ptr_instance)
         self.setWindowFlags(QtCore.Qt.Window)
 
         self.check_asset_pushbutton = QtWidgets.QPushButton("Check Asset")
+        self.model_checks_scrollarea = QtWidgets.QScrollArea()
         self.information_plaintextedit = QtWidgets.QPlainTextEdit()
         self.information_clear_pushbutton = QtWidgets.QPushButton("Clear logs")
-        # self.scrollframe = QtCore.QFrame()
-        self.model_checks_scrollarea = QtWidgets.QScrollArea()
-        self.model_checks_scrollarea.setVerticalScrollBar(QtWidgets.QScrollBar())
         self.fix_issues_pushbutton = QtWidgets.QPushButton("Fix All Issues")
 
         # Constraint Widgets Set
@@ -184,15 +183,22 @@ class UiModelCheckWidget(QtWidgets.QWidget):
             QtWidgets.QPushButton(),
         )
 
-        # Scrollarea layout to manage all the checks widgets.
+        # Splitting Scrollarea and Information Box
+        self.splitter = QtWidgets.QSplitter()
+        self.splitter.setOrientation(QtCore.Qt.Horizontal)
+        self.splitter.addWidget(self.model_checks_scrollarea)
+
         self.scrollarea_layout = QtWidgets.QGridLayout(self.model_checks_scrollarea)
         self.add_widgets_set_to_scrollarea()
-        self.info_verticallayout = QtWidgets.QVBoxLayout()
-        self.info_verticallayout.addWidget(self.information_plaintextedit)
-        self.info_verticallayout.addWidget(self.information_clear_pushbutton)
+
+        self.information_frame = QtWidgets.QFrame(self.splitter)
+        self.information_verticallayout = QtWidgets.QVBoxLayout(self.information_frame)
+        self.information_verticallayout.addWidget(self.information_plaintextedit)
+        self.information_verticallayout.addWidget(self.information_clear_pushbutton)
+        self.information_verticallayout.setContentsMargins(1, 1, 1, 1)
+
         self.checks_info_horizontallayout = QtWidgets.QHBoxLayout()
-        self.checks_info_horizontallayout.addWidget(self.model_checks_scrollarea)
-        self.checks_info_horizontallayout.addLayout(self.info_verticallayout)
+        self.checks_info_horizontallayout.addWidget(self.splitter)
 
         # Layout all the widgets.
         self.layout = QtWidgets.QVBoxLayout()  # type: ignore[method-assign]
@@ -249,5 +255,4 @@ class UiModelCheckWidget(QtWidgets.QWidget):
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     window = UiModelCheckWidget()
-    window.show()
     sys.exit(app.exec_())
