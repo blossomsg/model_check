@@ -1,5 +1,3 @@
-from typing import Union
-
 from PySide2 import QtGui, QtWidgets
 
 

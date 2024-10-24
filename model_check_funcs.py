@@ -47,16 +47,16 @@ def check_constraints() -> None:
     values in a dictionary.
     """
     model_check_dict["unwanted_constraints"] = (
-        cmds.ls(
-            type=[
-                "parentConstraint",
-                "pointConstraint",
-                "orientConstraint",
-                "scaleConstraint",
-                "aimConstraint",
-            ]
-        )
-        or []
+            cmds.ls(
+                type=[
+                    "parentConstraint",
+                    "pointConstraint",
+                    "orientConstraint",
+                    "scaleConstraint",
+                    "aimConstraint",
+                ]
+            )
+            or []
     )
 
 
@@ -64,8 +64,7 @@ def delete_constraints() -> None:
     """This function queries "unwanted_constraints" key, and deletes all the
     constraints from the scene.
     """
-    if model_check_dict.get("unwanted_constraints"):
-        cmds.delete(model_check_dict["unwanted_constraints"])
+    cmds.delete(model_check_dict.get("unwanted_constraints"))
 
 
 # Master Group Pivot Function
@@ -98,7 +97,7 @@ def check_master_group_pivot() -> None:
     model_check_dict["master_group_with_offset_pivot"] = (
         group_selection
         if offset_scalepivot_value != centerpivot_scalepivot_pivot
-        or offset_rotatepivot_value != centerpivot_rotatepivot_pivot
+           or offset_rotatepivot_value != centerpivot_rotatepivot_pivot
         else []
     )
 
@@ -140,8 +139,8 @@ def check_geometry_center_pivot() -> None:
         cmds.xform(transform, rotatePivot=offset_rotatepivot_value)
         # compare the offset and center pivots if not equal save in a list
         if (
-            offset_scalepivot_value != centerpivot_scalepivot_pivot
-            or offset_rotatepivot_value != centerpivot_rotatepivot_pivot
+                offset_scalepivot_value != centerpivot_scalepivot_pivot
+                or offset_rotatepivot_value != centerpivot_rotatepivot_pivot
         ):
             geo_with_offset.append(transform)
 
@@ -230,7 +229,7 @@ def check_duplicate_shape_nodes() -> None:
 
 def highlight_shapes_with_extra_shape_nodes() -> None:
     """This function highlights geo with extra shapes."""
-    cmds.select(model_check_dict["unwanted_multiple_shape_nodes"])
+    cmds.select(model_check_dict.get("unwanted_multiple_shape_nodes"))
 
 
 # Check Expressions functions
@@ -241,27 +240,27 @@ def check_expressions() -> None:
 
 def delete_expressions() -> None:
     """This function deletes all the expressions from the scene."""
-    cmds.delete(model_check_dict["unwanted_expressions"])
+    cmds.delete(model_check_dict.get("unwanted_expressions"))
 
 
 # check animation curves functions
 def check_animation_curves() -> None:
     """This function lists the anim curves nodes from the scene."""
     model_check_dict["unwanted_animation_curves"] = (
-        cmds.ls(type=["animCurveTL", "animCurveTA", "animCurveTU"]) or []
+            cmds.ls(type=["animCurveTL", "animCurveTA", "animCurveTU"]) or []
     )
 
 
 def delete_animation_curves() -> None:
     """This function deletes all the anim curves nodes from the scene."""
-    cmds.delete(model_check_dict["unwanted_animation_curves"])
+    cmds.delete(model_check_dict.get("unwanted_animation_curves"))
 
 
 # check render setup layers functions
 def check_render_layers() -> None:
     """This function lists the render setups layers from the scene"""
     model_check_dict["unwanted_rendersetup_layers"] = (
-        cmds.ls(type="renderSetupLayer") or []
+            cmds.ls(type="renderSetupLayer") or []
     )
 
 
@@ -278,36 +277,37 @@ def check_display_layers() -> None:
     default_layers = ["defaultLayer"]
     list_display_layers = cmds.ls(type="displayLayer")
     model_check_dict["unwanted_display_layers"] = [
-        layers for layers in list_display_layers if layers not in default_layers
-    ] or []
+                                                      layers for layers in list_display_layers if
+                                                      layers not in default_layers
+                                                  ] or []
 
 
 def delete_display_layers() -> None:
     """This function deletes all the display layers from the scene."""
-    cmds.delete(model_check_dict["unwanted_display_layers"])
+    cmds.delete(model_check_dict.get("unwanted_display_layers"))
 
 
 # Vray Light Functions
 def check_vray_lights() -> None:
     """This function lists the vray lights from the scene."""
     model_check_dict["unwanted_vray_lights"] = (
-        cmds.ls(
-            type=[
-                "VRayLightRectShape",
-                "VRayLightDomeShape",
-                "VRayLightIESShape",
-                "VRayLightSphereShape",
-                "VRaySunTarget",
-            ]
-        )
-        or []
+            cmds.ls(
+                type=[
+                    "VRayLightRectShape",
+                    "VRayLightDomeShape",
+                    "VRayLightIESShape",
+                    "VRayLightSphereShape",
+                    "VRaySunTarget",
+                ]
+            )
+            or []
     )
 
 
 def delete_vray_lights() -> None:
     """This function deletes all the vray lights from the scene."""
     cmds.delete(
-        cmds.listRelatives(model_check_dict["unwanted_vray_lights"], parent=True)
+        cmds.listRelatives(model_check_dict.get("unwanted_vray_lights"), parent=True)
     )
 
 
@@ -318,13 +318,14 @@ def check_cameras() -> None:
     list_cameras = cmds.ls(type="camera")
     unwanted_cameras = [cam for cam in list_cameras if cam not in default_cameras]
     model_check_dict["unwanted_cameras"] = [
-        cmds.listRelatives(parents, allParents=True)[0] for parents in unwanted_cameras
-    ] or []
+                                               cmds.listRelatives(parents, allParents=True)[0] for parents in
+                                               unwanted_cameras
+                                           ] or []
 
 
 def delete_unwanted_cameras() -> None:
     """This function deletes all the unwanted cameras from the scene."""
-    cmds.delete(model_check_dict["unwanted_cameras"])
+    cmds.delete(model_check_dict.get("unwanted_cameras"))
 
 
 # Unknown Functions
@@ -335,20 +336,20 @@ def check_unknown_nodes() -> None:
 
 def delete_unknown_nodes() -> None:
     """This function deletes all the unknown nodes from the scene."""
-    cmds.delete(model_check_dict["unknown_nodes"])
+    cmds.delete(model_check_dict.get("unknown_nodes"))
 
 
 # Shaded Viewport Functions
 def check_viewport_shading() -> None:
     """This function checks the viewport for wireframe shading."""
-    model_check_dict["viewport_shaded"] = (
-        cmds.modelEditor("modelPanel4", query=True, wireframeOnShaded=True) or []
-    )
+    model_check_dict["viewport_shaded"] = [] if cmds.modelEditor("modelPanel4", query=True,
+                                                                 wireframeOnShaded=True) else [
+        "Not Shaded with Wireframe"]
 
 
 def set_viewport_shading() -> None:
     """This function sets the viewport to wireframe shading."""
-    cmds.modelEditor("modelPanel4", edit=True, wireframeOnShaded=False)
+    cmds.modelEditor("modelPanel4", edit=True, wireframeOnShaded=True)
 
 
 # Viewport Display Smoothness
@@ -360,26 +361,25 @@ def viewport_smoothness() -> None:
 
 
 # Non-Mainfold Functions
-def check_nonmainfold_geometry() -> None:
-    """This function checks the geometries non mainfold faces in the selected group."""
+def check_nonmanifold_geometry() -> None:
+    """This function checks the geometries non-manifold faces in the selected group."""
     list_of_vertices_and_faces = []
-    group_selection = cmds.ls(selection=True)
-    group_children = cmds.listRelatives(group_selection, children=True)
-    for child in group_children:
-        if cmds.polyInfo(child, nonManifoldVertices=True, laminaFaces=True):
+    group_transforms = hierarchy_selection()
+    for transform in group_transforms:
+        if cmds.polyInfo(transform, nonManifoldVertices=True, laminaFaces=True):
             list_of_vertices_and_faces.append(
-                cmds.polyInfo(child, nonManifoldVertices=True, laminaFaces=True)
+                cmds.polyInfo(transform, nonManifoldVertices=True, laminaFaces=True)
             )
     flatten_list = [
         each for vertex_face in list_of_vertices_and_faces for each in vertex_face
     ]
-    model_check_dict["nonmainfold_list"] = flatten_list or []
+    model_check_dict["nonmanifold_list"] = flatten_list or []
 
 
-def highlight_nonmainfold_geometry() -> None:
-    """This function selects the non mainfold faces from dictionary which is
+def highlight_nonmanifold_geometry() -> None:
+    """This function selects the non-manifold faces from dictionary which is
     higlighted in viewport."""
-    cmds.select(model_check_dict["nonmainfold_list"])
+    cmds.select(model_check_dict.get("nonmanifold_list"))
 
 
 # N-Sided Faces Functions
@@ -397,7 +397,7 @@ def check_n_sided_faces() -> None:
 
 def highlight_n_sided_faces() -> None:
     """This function selects the n-sided faces from dictionary which is higlighted in viewport."""
-    cmds.select(model_check_dict["nsided_faces"])
+    cmds.select(model_check_dict.get("nsided_faces"))
 
 
 # Hidden Geometries Functions
@@ -432,20 +432,20 @@ def check_uvs_in_negative_space() -> None:
             value_u1 = boundingbox_evaluate[0][0]
             if value_u1 < 0.0:
                 geo_in_negative_space.append(transform)
-        except IndexError:
+        except TypeError:
             pass
         try:
             value_v1 = boundingbox_evaluate[1][0]
             if value_v1 < 0.0:
                 geo_in_negative_space.append(transform)
-        except IndexError:
+        except TypeError:
             pass
     model_check_dict["uvs_in_negative_space"] = geo_in_negative_space
 
 
 def highlight_obj_uvs_in_negative_space() -> None:
     """This function highlights the uv's in negative space in viewport."""
-    cmds.select(model_check_dict["uvs_in_negative_space"])
+    cmds.select(model_check_dict.get("uvs_in_negative_space"))
 
 
 # Namespaces Functions
@@ -454,8 +454,8 @@ def check_namespaces() -> None:
     default_namespace = ["UI", "shared"]
     all_namespaces = cmds.namespaceInfo(listOnlyNamespaces=True)
     model_check_dict["unwanted_namespaces"] = [
-        names for names in all_namespaces if names not in default_namespace
-    ] or []
+                                                  names for names in all_namespaces if names not in default_namespace
+                                              ] or []
 
 
 def remove_unwanted_namespaces() -> None:
