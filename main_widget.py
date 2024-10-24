@@ -1,6 +1,4 @@
 """Modules to create UI"""
-import sys
-
 import maya.OpenMayaUI as omui  # type: ignore
 from PySide2 import QtCore, QtGui, QtWidgets
 from shiboken2 import wrapInstance  # type: ignore
@@ -417,10 +415,3 @@ class UiCheckWidget(QtWidgets.QWidget):
         self.model_checks.no_namespaces_widgets_set.buttons[0].clicked.connect(
             model_check_funcs.remove_unwanted_namespaces
         )
-
-
-# Run the program
-if __name__ == "__main__":
-    app = QtWidgets.QApplication(sys.argv)
-    window = UiCheckWidget()
-    sys.exit(app.exec_())
