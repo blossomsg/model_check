@@ -1,5 +1,4 @@
 # model_check
-***
 This tool does sanity check on your model scene file in **Autodesk Maya 2024**.
 This tool ensures your model scene file is ready for next department to use it.
 
@@ -9,19 +8,15 @@ This tool ensures your model scene file is ready for next department to use it.
 [![linting: isort](https://img.shields.io/badge/imports-isort-blue?style=flat)](https://pycqa.github.io/isort/)
 
 ## Tool
-***
 ![Alt text](images/Asset_Check_Tool_Image.jpg)
 
 ## Usage
-***
 ![Alt text](images/Tool_working.gif)
 
 ## Support
-***
 Raise issue in Issue-Tracker
 
 ## Installation
-***
 * Clone the repo or download the zip.
 * open "model_check_shelf.py" in sublime/PyCharm/mayaScript editor
 * provide the path of the folder where you have saved the script eg: <provide_file_path>\\\model_check\\\
@@ -42,5 +37,4 @@ ui = main_widget.UiCheckWidget()
 ```
 
 ## License
-***
 [BSD-3](https://github.com/blossomsg/model_check/blob/main/LICENSE)
