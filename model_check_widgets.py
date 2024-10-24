@@ -3,11 +3,12 @@ from typing import List
 
 from PySide2 import QtGui, QtWidgets
 
+# pylint: disable=import-error
 import constants
 import ui_check_base
 
 
-# pylint: disable=too-many-instance-attribute
+# pylint: disable=too-many-instance-attributes
 class ModelCheckWidgets(QtWidgets.QWidget):
     """A class that creates and holds model check widgets for the UI."""
 
@@ -128,10 +129,10 @@ class ModelCheckWidgets(QtWidgets.QWidget):
             font=QtGui.QFont(constants.FONT, constants.FONT_POINT_SIZE),
         )
 
-        # No Non-Mainfold Widgets set
-        self.no_non_mainfold_geometry_widgets_set = ui_check_base.UiCheckBase(
-            QtWidgets.QCheckBox("No Non-Mainfold Geometry"),
-            QtWidgets.QPushButton("Highlight Mainfold Geometry"),
+        # No Non-Manifold Widgets set
+        self.no_non_manifold_geometry_widgets_set = ui_check_base.UiCheckBase(
+            QtWidgets.QCheckBox("No Non-Manifold Geometry"),
+            QtWidgets.QPushButton("Highlight Manifold Geometry"),
             QtWidgets.QPushButton(),
             font=QtGui.QFont(constants.FONT, constants.FONT_POINT_SIZE),
         )
@@ -169,6 +170,7 @@ class ModelCheckWidgets(QtWidgets.QWidget):
         )
 
         self.add_widgets_set_to_layout()
+        self.enable_all_checkboxes()
         self.setLayout(self.grid_layout)
 
     def add_widgets_set_to_layout(self) -> None:
@@ -182,19 +184,47 @@ class ModelCheckWidgets(QtWidgets.QWidget):
             self.frozen_transforms_widgets_set,
             self.no_duplicate_shape_nodes_widgets_set,
             self.no_expressions_widgets_set,
+            self.no_animation_widgets_set,
             self.no_render_layers_widgets_set,
             self.no_display_layers_widgets_set,
             self.no_lights_widgets_set,
             self.no_additional_cameras_widgets_set,
             self.no_unknown_nodes_widgets_set,
             self.viewport_shaded_widgets_set,
-            self.no_non_mainfold_geometry_widgets_set,
+            self.no_non_manifold_geometry_widgets_set,
             self.no_n_sided_faces_widgets_set,
             self.no_uv_in_negative_area_widgets_set,
             self.no_hidden_geometry_widgets_set,
             self.no_namespaces_widgets_set,
         ]
         self._add_widgets_sets_to_layout(widgets_sets=checks_widgets_sets)
+
+    def enable_all_checkboxes(self) -> None:
+        """This function is to enable all the model checks checkboxes."""
+
+        checks_widgets_sets = [
+            self.constraint_check_widgets_set.checkbox,
+            self.master_group_pivot_origin_widgets_set.checkbox,
+            self.center_pivot_points_widgets_set.checkbox,
+            self.construction_history_widgets_set.checkbox,
+            self.frozen_transforms_widgets_set.checkbox,
+            self.no_duplicate_shape_nodes_widgets_set.checkbox,
+            self.no_animation_widgets_set.checkbox,
+            self.no_expressions_widgets_set.checkbox,
+            self.no_render_layers_widgets_set.checkbox,
+            self.no_display_layers_widgets_set.checkbox,
+            self.no_lights_widgets_set.checkbox,
+            self.no_additional_cameras_widgets_set.checkbox,
+            self.no_unknown_nodes_widgets_set.checkbox,
+            self.viewport_shaded_widgets_set.checkbox,
+            self.no_non_manifold_geometry_widgets_set.checkbox,
+            self.no_n_sided_faces_widgets_set.checkbox,
+            self.no_uv_in_negative_area_widgets_set.checkbox,
+            self.no_hidden_geometry_widgets_set.checkbox,
+            self.no_namespaces_widgets_set.checkbox,
+        ]
+
+        self._set_all_checkboxes(checkboxes=checks_widgets_sets, state=True)
 
     def _add_widgets_sets_to_layout(
         self, widgets_sets: List[ui_check_base.UiCheckBase]
@@ -209,3 +239,15 @@ class ModelCheckWidgets(QtWidgets.QWidget):
                 self.grid_layout.addWidget(widgets.buttons[0], idx, 2)
                 self.grid_layout.addWidget(widgets.buttons[1], idx, 3)
                 self.grid_layout.addWidget(widgets.buttons[2], idx, 4)
+
+    @staticmethod
+    def _set_all_checkboxes(
+        checkboxes: List[ui_check_base.UiCheckBase], state: bool
+    ) -> None:
+        """Helper function to set the state of all the checkboxes.
+        Args:
+            checkbox List[ui_check_base.UiCheckBase.checkbox]: Checkboxes widgets of all the checks
+            state (bool): Update Checkbox state with boolean
+        """
+        for checks in checkboxes:
+            checks.setChecked(state)
