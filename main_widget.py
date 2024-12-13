@@ -71,7 +71,7 @@ class UiCheckWidget(QtWidgets.QWidget):
         self.setLayout(self.vlayout)
 
         self.setGeometry(200, 100, 1500, 800)
-        self.setWindowTitle("Check Asset v1.0.0")
+        self.setWindowTitle("Check Asset v1.1.1")
 
         self.check_asset_pushbutton.clicked.connect(self.check_asset)
         self.fix_issues_pushbutton.clicked.connect(self.fix_issues)
