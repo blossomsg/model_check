@@ -78,7 +78,6 @@ class UiCheckWidget(QtWidgets.QWidget):
         self.information_clear_pushbutton.clicked.connect(
             self.information_plaintextedit.clear
         )
-        self.show()
 
     def check_asset(self) -> None:
         """This function checks the asset in the scene by executing -
@@ -415,3 +414,7 @@ class UiCheckWidget(QtWidgets.QWidget):
         self.model_checks.no_namespaces_widgets_set.buttons[0].clicked.connect(
             model_check_funcs.remove_unwanted_namespaces
         )
+
+    def closeEvent(self, event: QtGui.QCloseEvent) -> None:
+        """This function closes the application event."""
+        event.accept()

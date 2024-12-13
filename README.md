@@ -26,15 +26,7 @@ Raise issue in Issue-Tracker
 
 https://digdeeperts.wordpress.com/2019/03/21/maya-how-add-shelf-to-env/
 
-```
-# For Windows
-import sys
-sys.path.append("<provide_file_path>\\model_check\\")
-import main_widget
-if ui:
-    ui.close()
-ui = main_widget.UiCheckWidget()
-```
+[model_check_shelf.py](model_check_shelf.py) -> to launch the tool 
 
 ## License
 [BSD-3](https://github.com/blossomsg/model_check/blob/main/LICENSE)
