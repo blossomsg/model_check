@@ -1,11 +1,19 @@
 """Modules to create UI"""
+
+# pylint: disable=import-error
 import maya.OpenMayaUI as omui  # type: ignore
-from PySide2 import QtCore, QtGui, QtWidgets
-from shiboken2 import wrapInstance  # type: ignore
+
+try:
+    from PySide2 import QtCore, QtGui, QtWidgets  # type: ignore
+    from shiboken2 import wrapInstance  # type: ignore
+except ModuleNotFoundError:
+    from PySide6 import QtCore, QtGui, QtWidgets  # type: ignore
+    from shiboken6 import wrapInstance  # type: ignore
 
 # pylint: disable=import-error
 import constants
 import model_check_funcs
+import model_check_thread
 import model_check_widgets
 import utilities
 
@@ -15,7 +23,7 @@ ptr_instance = wrapInstance(int(ptr), QtWidgets.QWidget)
 
 # pylint: disable=too-many-instance-attributes
 # pylint: disable=too-many-statements
-class UiCheckWidget(QtWidgets.QWidget):
+class UiCheckWidget(QtWidgets.QWidget):  # type: ignore
     """This function initializes the ui."""
 
     def __init__(self) -> None:
@@ -25,6 +33,10 @@ class UiCheckWidget(QtWidgets.QWidget):
         self.setParent(ptr_instance)
         self.setWindowFlags(QtCore.Qt.Window)
 
+        # progress bar
+        self.thread = model_check_thread.ModelCheckThread()
+
+        self.check_asset_progress_bar = QtWidgets.QProgressBar()
         self.check_asset_pushbutton = QtWidgets.QPushButton("Check Asset")
         self.check_asset_pushbutton.setFont(
             QtGui.QFont(constants.FONT, constants.FONT_POINT_SIZE)
@@ -68,13 +80,17 @@ class UiCheckWidget(QtWidgets.QWidget):
         self.vlayout.addWidget(self.check_asset_pushbutton)
         self.vlayout.addLayout(self.checks_info_horizontallayout)
         self.vlayout.addWidget(self.fix_issues_pushbutton)
+        self.vlayout.addWidget(self.check_asset_progress_bar)
         self.setLayout(self.vlayout)
 
         self.setGeometry(200, 100, 1500, 800)
-        self.setWindowTitle("Check Asset v1.1.1")
+        self.setWindowTitle("Check Asset v1.2.1")
 
         self.check_asset_pushbutton.clicked.connect(self.check_asset)
+        self.check_asset_pushbutton.clicked.connect(self.start_thread)
         self.fix_issues_pushbutton.clicked.connect(self.fix_issues)
+        self.fix_issues_pushbutton.clicked.connect(self.start_thread)
+        self.thread.progress_signal.connect(self.update_progress_bar)
         self.information_clear_pushbutton.clicked.connect(
             self.information_plaintextedit.clear
         )
@@ -415,6 +431,26 @@ class UiCheckWidget(QtWidgets.QWidget):
             model_check_funcs.remove_unwanted_namespaces
         )
 
+    def start_thread(self) -> None:
+        """
+        This function is to start the progress bar.
+
+        :return:
+        """
+        self.thread.start()
+
+    def update_progress_bar(self, value: int) -> None:
+        """
+        This function sets the value with the help of start_thread funciton.
+        Args:
+            value(int) :
+
+        Returns:
+
+        """
+        self.check_asset_progress_bar.setValue(value)
+
+    # pylint: disable=invalid-name
     def closeEvent(self, event: QtGui.QCloseEvent) -> None:
         """This function closes the application event."""
         event.accept()

@@ -1,7 +1,10 @@
 """Modules to create model checks"""
 from typing import List
 
-from PySide2 import QtGui, QtWidgets
+try:
+    from PySide2 import QtGui, QtWidgets  # type: ignore
+except ModuleNotFoundError:
+    from PySide6 import QtGui, QtWidgets  # type: ignore
 
 # pylint: disable=import-error
 import constants
@@ -9,7 +12,7 @@ import ui_check_base
 
 
 # pylint: disable=too-many-instance-attributes
-class ModelCheckWidgets(QtWidgets.QWidget):
+class ModelCheckWidgets(QtWidgets.QWidget):  # type: ignore
     """A class that creates and holds model check widgets for the UI."""
 
     def __init__(self) -> None:
