@@ -1,7 +1,10 @@
-from PySide2 import QtGui, QtWidgets
+try:
+    from PySide2 import QtGui, QtWidgets  # type: ignore
+except ModuleNotFoundError:
+    from PySide6 import QtGui, QtWidgets  # type: ignore
 
 
-class UiCheckBase(QtWidgets.QWidget):
+class UiCheckBase(QtWidgets.QWidget):  # type: ignore
     """This class creates buttons and checkboxes"""
 
     def __init__(

@@ -8,10 +8,15 @@ This tool ensures your model scene file is ready for next department to use it.
 [![linting: isort](https://img.shields.io/badge/imports-isort-blue?style=flat)](https://pycqa.github.io/isort/)
 
 ## Tool
-![Alt text](images/Asset_Check_Tool_Image.jpg)
+![Asset_Check_Tool_Image.png](images/Asset_Check_Tool_Image.png)
 
 ## Usage
-![Alt text](images/Tool_working.gif)
+![Tool_Working.gif](images/Tool_Working.gif)
+
+## Tutorial
+Tool usage video Reference
+
+https://www.youtube.com/watch?v=HjjfyjRFDPg
 
 ## Support
 Raise issue in Issue-Tracker
